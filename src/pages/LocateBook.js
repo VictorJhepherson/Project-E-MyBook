@@ -23,10 +23,6 @@ export default function LocateBook() {
         BOOK_GEN: route.params.BOOK_GEN
     });
 
-    const LocateBook = async () => {
-        setLocateModal(true);
-    };
-
     return (
         <View style={styles.background}>
             <ImageBackground 
@@ -64,7 +60,7 @@ export default function LocateBook() {
                         </TouchableOpacity>
                     }
                     {bookInfo.BOOK_STATUS == 'd' ?
-                        <TouchableOpacity style={styles.locateButton} onPress={LocateBook}>
+                        <TouchableOpacity style={styles.locateButton} onPress={() => { setLocateModal(true) }}>
                             <Text style={styles.textLocate}>Locar</Text>
                         </TouchableOpacity>
                         :

@@ -21,16 +21,12 @@ export default function Home({state}) {
     const { state: user } = useContext(UserContext);
     const navigation = useNavigation();
 
-    const handleMessageButtonClick = async () => {
-        navigation.navigate('Profile');
-    };
-
     return (
         <View style={styles.background}>
             <View style={styles.header}>
                 <MyBook width="36" height="36" style={styles.icon}/>
                 <Text style={styles.title}>MyBook</Text>
-                <TouchableOpacity style={styles.profile} onPress={handleMessageButtonClick}>
+                <TouchableOpacity style={styles.profile} onPress={() => { navigation.navigate('Profile') }}>
                     {user.avatar != '' && user.avatar != undefined ?
                         <Image style={styles.userPhoto} source={{uri: user.avatar}}/>
                         : <Account width="36" height="36" fill="#000000"/>
