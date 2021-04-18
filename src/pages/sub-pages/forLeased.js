@@ -15,22 +15,10 @@ export default function forInfo() {
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
-        getLocates();
-        wait(2000).then(() => setRefreshing(false));
-    }, []);
-
-    const getLocates = async () => {
-        let json = await Api.getLocates();
-        if(json.data[0] != null)
-            setListLocate(json.data);
-        else 
-            setMessageEmpty('flex');
-    };
-
-    useEffect(() => {
         Api.getLocates().then((response) => {
             if(response.data[0] != null) {
                 setListLocate(response.data);
+                setMessageEmpty('none');
             }
             else {
                 setMessageEmpty('flex');
@@ -38,6 +26,25 @@ export default function forInfo() {
         }).catch((error) => {
             alert('Erro inesperado, contate o adminstrador');
         });
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
+
+    useEffect(() => {
+        let isFlag = true;
+        Api.getLocates().then((response) => {
+            if(isFlag) {
+                if(response.data[0] != null) {
+                    setListLocate(response.data);
+                    setMessageEmpty('none');
+                }
+                else {
+                    setMessageEmpty('flex');
+                }
+            }
+        }).catch((error) => {
+            alert('Erro inesperado, contate o adminstrador');
+        });
+        return () => { isFlag = false };
     }, []);
     return(
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-around', alignItems: 'center', backgroundColor: '#FFFFFF' }} horizontal={true}>

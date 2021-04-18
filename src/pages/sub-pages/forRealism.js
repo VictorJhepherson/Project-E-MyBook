@@ -25,6 +25,7 @@ export default function forRealism() {
             if(response.data[0] != null) {
                 setList(response.data);
                 setTextEmpty('none');
+                setMessageEmpty('none');
             }
             else {
                 setMessageEmpty('flex');
@@ -40,19 +41,6 @@ export default function forRealism() {
         setMessageEmpty('none');
     }
 
-    const getBooks = async () => {
-        setLoading(true);
-        setList([]);
-
-        let res = await Api.getBookByGen('Realismo');
-        if(res.data[0] != null) {
-            setList(res.data);
-        } else {
-            setMessageEmpty('flex');
-        }
-        setLoading(false);
-    };
-
     const handleSearch = async () => {
         setLoading(true);
         setList([]);
@@ -61,6 +49,7 @@ export default function forRealism() {
             if(res.data[0] != null) {
                 setList(res.data);
                 setTextEmpty('none');
+                setMessageEmpty('none');
             }
             else {
                 setMessageEmpty('flex');
@@ -72,17 +61,22 @@ export default function forRealism() {
     };
 
     useEffect(() => {
+        let isFlag = true;
         Api.getBookByGen('Realismo').then((response) => {
-            if(response.data[0] != null) {
-                setList(response.data);
-                setTextEmpty('none');
-            }
-            else {
-                setMessageEmpty('flex');
+            if(isFlag) {
+                if(response.data[0] != null) {
+                    setList(response.data);
+                    setTextEmpty('none');
+                    setMessageEmpty('none');
+                }
+                else {
+                    setMessageEmpty('flex');
+                }
             }
         }).catch((error) => {
             alert('Erro inesperado, contate o adminstrador');
         });
+        return () => { isFlag = false };
     }, []);
 
     return (

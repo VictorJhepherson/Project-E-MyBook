@@ -39,38 +39,27 @@ export default function forInfo() {
         }
     };
 
-    const getUserInfo = async () => {
-        let json = await Api.getUserId(user);
-        if(json.lenght < 1){
-
-        } else {
-            json.data.map((item, k) => {
-                setCPF(item.USRDOC_CPFNUMBER);
-                setPhone(item.USR_PHONENUMBER);
-                setBirthday(item.USR_DATEBIRTHDAY);
-                setEmail(item.USR_LOGINNAME);
-                setName(item.USR_NAME);
-            });
-        }
-    };
-
     useEffect(() => {
+        let isFlag = true;
         Api.getUserId().then((response) => {
-            if(response.lenght < 1) {
-                alert('Usuário não encontrado');
-            }
-            else {
-                response.data.map((item, k) => {
-                    setCPF(item.USRDOC_CPFNUMBER);
-                    setPhone(item.USR_PHONENUMBER);
-                    setBirthday(item.USR_DATEBIRTHDAY);
-                    setEmail(item.USR_LOGINNAME);
-                    setName(item.USR_NAME);
-                });
+            if(isFlag) {
+                if(response.lenght < 1) {
+                    alert('Usuário não encontrado');
+                }
+                else {
+                    response.data.map((item, k) => {
+                        setCPF(item.USRDOC_CPFNUMBER);
+                        setPhone(item.USR_PHONENUMBER);
+                        setBirthday(item.USR_DATEBIRTHDAY);
+                        setEmail(item.USR_LOGINNAME);
+                        setName(item.USR_NAME);
+                    });
+                }
             }
         }).catch((error) => {
             alert('Erro inesperado, contate o adminstrador');
         });
+        return () => { isFlag = false };
     }, []);
     return(
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-around', alignItems: 'center', backgroundColor: '#FFFFFF' }} horizontal={true}>

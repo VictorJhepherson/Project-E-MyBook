@@ -40,19 +40,6 @@ export default function forTecnology() {
         setMessageEmpty('none');
     }
 
-    const getBooks = async () => {
-        setLoading(true);
-        setList([]);
-
-        let res = await Api.getBookByGen('Tecnologia');
-        if(res.data[0] != null) {
-            setList(res.data);
-        } else {
-            setMessageEmpty('flex');
-        }
-        setLoading(false);
-    };
-
     const handleSearch = async () => {
         setLoading(true);
         setList([]);
@@ -61,6 +48,7 @@ export default function forTecnology() {
             if(res.data[0] != null) {
                 setList(res.data);
                 setTextEmpty('none');
+                setMessageEmpty('none');
             }
             else {
                 setMessageEmpty('flex');
@@ -72,17 +60,21 @@ export default function forTecnology() {
     };
 
     useEffect(() => {
+        let isFlag = true;
         Api.getBookByGen('Tecnologia').then((response) => {
-            if(response.data[0] != null) {
-                setList(response.data);
-                setTextEmpty('none');
-            }
-            else {
-                setMessageEmpty('flex');
+            if(isFlag) {
+                if(response.data[0] != null) {
+                    setList(response.data);
+                    setTextEmpty('none');
+                }
+                else {
+                    setMessageEmpty('flex');
+                }
             }
         }).catch((error) => {
             alert('Erro inesperado, contate o adminstrador');
         });
+        return () => { isFlag = false };
     }, []);
 
     return (

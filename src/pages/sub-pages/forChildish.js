@@ -25,6 +25,7 @@ export default function forChildish() {
             if(response.data[0] != null) {
                 setList(response.data);
                 setTextEmpty('none');
+                setMessageEmpty('none');
             }
             else {
                 setMessageEmpty('flex');
@@ -40,19 +41,6 @@ export default function forChildish() {
         setMessageEmpty('none');
     }
 
-    const getBooks = async () => {
-        setLoading(true);
-        setList([]);
-
-        let res = await Api.getBookByGen('Infantil');
-        if(res.data[0] != null) {
-            setList(res.data);
-        } else {
-            setMessageEmpty('flex');
-        }
-        setLoading(false);
-    };
-
     const handleSearch = async () => {
         setLoading(true);
         setList([]);
@@ -61,6 +49,7 @@ export default function forChildish() {
             if(res.data[0] != null) {
                 setList(res.data);
                 setTextEmpty('none');
+                setMessageEmpty('none');
             }
             else {
                 setMessageEmpty('flex');
@@ -72,17 +61,22 @@ export default function forChildish() {
     };
 
     useEffect(() => {
+        let isFlag = true;
         Api.getBookByGen('Infantil').then((response) => {
-            if(response.data[0] != null) {
-                setList(response.data);
-                setTextEmpty('none');
-            }
-            else {
-                setMessageEmpty('flex');
+            if(isFlag) {
+                if(response.data[0] != null) {
+                    setList(response.data);
+                    setTextEmpty('none');
+                    setMessageEmpty('none');
+                }
+                else {
+                    setMessageEmpty('flex');
+                }
             }
         }).catch((error) => {
             alert('Erro inesperado, contate o adminstrador');
         });
+        return () => { isFlag = false };
     }, []);
 
     return (
