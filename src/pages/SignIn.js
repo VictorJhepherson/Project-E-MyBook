@@ -66,7 +66,9 @@ export default function SignIn() {
                 <Text style={styles.title}>MyBook</Text>
             </View>
             <Animated.View style={[ styles.pageBody, { transform: [ { translateY: offset.y } ] }]}>
-                <Text style={styles.subtitle}>Insira suas informações para realizar o login</Text>
+                <View style={styles.titleArea}>
+                    <Text style={styles.subtitle}>Insira suas informações para realizar o login</Text>
+                </View>
                 <View style={styles.inputArea}>
                     <Email width="24" height="24" fill="#000000" />
                     <TextInput 
@@ -148,6 +150,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around'
     },
+    titleArea: {
+        width: 350,
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     subtitle: {
         fontSize: 20,
         color: '#000',
@@ -171,6 +179,8 @@ const styles = StyleSheet.create({
         marginLeft: 5
     },
     wrongPassword: {
+        width: 350,
+        height: 40,
         justifyContent: 'center',
         alignItems: 'center'
     },

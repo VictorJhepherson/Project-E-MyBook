@@ -50,7 +50,6 @@ export default ({data}) => {
         <View style={styles.background}>
             <View style={styles.infoArea}>
                 <Text style={styles.infoBook}>Título: {data.BOOK_NAME}</Text>
-                <Text style={styles.infoBook}>Status: {data.LOC_STATUS == 'l' ? 'Locado' : 'Disponível'}</Text>
                 <Text style={styles.infoBook}>Data locação: {data.LOC_DATE_RETIRADA}</Text>
                 <Text style={styles.infoBook}>Data expiração: {data.LOC_DATE_ENTREGA}</Text>
             </View>
@@ -69,7 +68,7 @@ export default ({data}) => {
 const styles = StyleSheet.create({
     background: {
         minWidth: 380,
-        minHeight: 140,
+        minHeight: 150,
         borderRadius: 20,
         marginBottom: 10,
         alignItems: 'center',
@@ -79,6 +78,7 @@ const styles = StyleSheet.create({
     infoArea: {
         width: 300,
         height: 70,
+        marginTop: 10,
         alignItems: 'flex-start',
         justifyContent: 'center',
         backgroundColor: '#000000'
