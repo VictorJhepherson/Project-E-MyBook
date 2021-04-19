@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { View, Text, TouchableOpacity, TextInput, ScrollView, ImageBackground, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
+import Api from '../Api';
 
 import Back from '../assets/back.svg';
 import FavoriteClean from '../assets/favorito-vazio.svg';
 import Favorite from '../assets/favorito.svg';
 import LocateModal from '../components/LocateModal';
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 export default function LocateBook() {
     const navigation = useNavigation();
@@ -13,6 +18,9 @@ export default function LocateBook() {
 
     const [locateModal, setLocateModal] = useState(false);
     const [verify, setVerify] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [addFavorite, setAddFavorite] = useState('none');
+    const [removeFavorite, setRemoveFavorite] = useState('none');
 
     const [bookInfo, setBookInfo] = useState({
         BOOK_ID: route.params.BOOK_ID,
@@ -22,6 +30,48 @@ export default function LocateBook() {
         BOOK_AUTHOR: route.params.BOOK_AUTHOR,
         BOOK_GEN: route.params.BOOK_GEN
     });
+
+    const setMessage = () => {
+        setLoading(false);
+        setAddFavorite('none');
+        setRemoveFavorite('none');
+    };
+
+    const setFavorite = async () => {
+        setLoading(true);
+        if(verify) {
+            let json = await Api.addFavorite(bookInfo.BOOK_ID);
+            if(!json.error) {
+                setVerify(false);
+                setAddFavorite('flex');
+                setRemoveFavorite('none');
+            }
+        } else {
+            let json = await Api.removeFavorite(bookInfo.BOOK_ID);
+            if(!json.error) {
+                setVerify(true);
+                setRemoveFavorite('flex');
+                setAddFavorite('none');
+            }
+        }
+        wait(3000).then(setMessage);
+    };
+
+    useEffect(() => {
+        let isFlag = true;
+        Api.verifyFavorite(bookInfo.BOOK_ID).then((response) => {
+            if(isFlag){
+                if(response.data != 0 ) {
+                    setVerify(false);
+                } else {
+                    setVerify(true);
+                }
+            }
+        }).catch((error) => {
+            alert('Erro inesperado, contate o adminstrador');
+        });
+        return () => { isFlag = false };
+    }, []);
 
     return (
         <View style={styles.background}>
@@ -49,13 +99,21 @@ export default function LocateBook() {
                         <Text style={styles.titleDesc}>{bookInfo.BOOK_DESC}</Text>
                     </View>
                 </View>
+                <View style={styles.warningFavorite}>
+                    <Text style={{display: addFavorite, color: '#FF0000'}}>
+                    Livro adicionado aos favoritos!
+                    </Text>
+                    <Text style={{display: removeFavorite, color: '#FF0000', }}>
+                    Livro removido dos favoritos!
+                    </Text>
+                </View>
                 <View style={styles.locateBook}>
                     {verify ?
-                        <TouchableOpacity style={styles.favoriteButton} onPress={()=>{ setVerify(false) }}>
+                        <TouchableOpacity style={styles.favoriteButton} onPress={setFavorite}>
                             <FavoriteClean width="36" height="36" fill="#000000"/>
                         </TouchableOpacity>
                         :
-                        <TouchableOpacity style={styles.favoriteButton} onPress={()=>{ setVerify(true) }}>
+                        <TouchableOpacity style={styles.favoriteButton} onPress={setFavorite}>
                             <Favorite width="36" height="36" fill="#000000"/>
                         </TouchableOpacity>
                     }
@@ -125,6 +183,12 @@ const styles = StyleSheet.create({
         marginTop: 15,
         justifyContent: 'flex-start',
         alignItems: 'flex-start'
+    },
+    warningFavorite: {
+        width: 350,
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     titleDesc: {
         marginTop: 10,

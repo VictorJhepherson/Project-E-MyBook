@@ -145,5 +145,50 @@ export default {
         });
         const json = await req.json();
         return json;
+    },
+    verifyFavorite: async (BOOK_ID) => {
+        const token = await AsyncStorage.getItem('token');
+        const user = await AsyncStorage.getItem('user');
+        const req = await fetch(`${BASE_API}/user/verifyFavorite`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": 'Baerer ' + token
+            },
+            body: JSON.stringify({user, BOOK_ID})
+        });
+        const json = await req.json();
+        return json;
+    },
+    addFavorite: async (BOOK_ID) => {
+        const token = await AsyncStorage.getItem('token');
+        const user = await AsyncStorage.getItem('user');
+        const req = await fetch(`${BASE_API}/user/addFavorite`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": 'Baerer ' + token
+            },
+            body: JSON.stringify({user, BOOK_ID})
+        });
+        const json = await req.json();
+        return json;
+    },
+    removeFavorite: async (BOOK_ID) => {
+        const token = await AsyncStorage.getItem('token');
+        const user = await AsyncStorage.getItem('user');
+        const req = await fetch(`${BASE_API}/user/removeFavorite`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": 'Baerer ' + token
+            },
+            body: JSON.stringify({user, BOOK_ID})
+        });
+        const json = await req.json();
+        return json;
     }
 };
