@@ -54,7 +54,7 @@ export default function LocateBook() {
                 setAddFavorite('none');
             }
         }
-        wait(3000).then(setMessage);
+        wait(2000).then(setMessage);
     };
 
     useEffect(() => {

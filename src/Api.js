@@ -179,7 +179,7 @@ export default {
     removeFavorite: async (BOOK_ID) => {
         const token = await AsyncStorage.getItem('token');
         const user = await AsyncStorage.getItem('user');
-        const req = await fetch(`${BASE_API}/user/removeFavorite`, {
+        const req = await fetch(`${BASE_API}/user/removeFavorites`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, Text, TouchableOpacity, TextInput, Image, ScrollView, KeyboardAvoidingView, Animated, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Image, ScrollView, Alert, Animated, StyleSheet } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text'
 import Api from '../Api';
 import AvatarView from '../components/AvatarView';
@@ -34,28 +34,134 @@ export default function SignUp() {
 
     const [offset] = useState(new Animated.ValueXY({ x: 0, y: 150 }));
 
+    const emailValidate = () => {
+        var usuario = emailField.substring(0, emailField.indexOf("@"));
+        var dominio = emailField.substring(emailField.indexOf("@") + 1, emailField.length);
+
+        if ((usuario.length >= 1) &&
+            (dominio.length >= 3) &&
+            (usuario.search("@") == -1) &&
+            (dominio.search("@") == -1) &&
+            (usuario.search(" ") == -1) &&
+            (dominio.search(" ") == -1) &&
+            (dominio.search(".") != -1) &&
+            (dominio.indexOf(".") >= 1) &&
+            (dominio.lastIndexOf(".") < dominio.length - 1)) 
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    const fieldValidate = () => {
+        let lResult = {
+            error: '',
+            success: true
+        }
+
+        if(!emailValidate()) {
+            lResult.error = 'O EMAIL é inválido';
+            lResult.success = false;
+            return lResult;
+        } else if(passwordField.length < 6 || passwordField.length > 10) {
+            lResult.error = 'A senha deve ter de 6 a 10 caracteres';
+            lResult.success = false;
+            return lResult;
+        } else if(ageField.length < 10) {
+            lResult.error = 'A DATA DE NASCIMENTO foi preenchida incorretamente. Ex: 99/99/9999';
+            lResult.success = false;
+            return lResult;
+        } else if(telField.length < 14) {
+            lResult.error = 'O TELEFONE foi preenchido incorretamente. Ex: (19)99999-9999';
+            lResult.success = false;
+            return lResult;
+        } else if(cpfField.length < 14) {
+            lResult.error = 'O CPF foi preenchido incorretamente. Ex: 999.999.999-99';
+            lResult.success = false;
+            return lResult;
+        } else if(cpfField.length == 14) {
+            var unmasked = cpfField;
+            unmasked = unmasked.replace(".", "");
+            unmasked = unmasked.replace(".", "");
+            unmasked = unmasked.replace("-", "");
+
+            var sum;
+            var rest;
+            sum = 0;
+            if (unmasked == "00000000000") {
+                lResult.error = 'O CPF é inválido';
+                lResult.success = false;
+                return lResult;
+            }
+
+            for (let i = 1; i <= 9; i++) {
+                sum = sum + parseInt(unmasked.substring(i - 1, i)) * (11 - i);
+            }
+            rest = (sum * 10) % 11;
+
+            if ((rest == 10) || (rest == 11))  
+                rest = 0;
+
+            if (rest != parseInt(unmasked.substring(9, 10)) ) {
+                lResult.error = 'O CPF é inválido';
+                lResult.success = false;
+                return lResult;
+            }
+
+            sum = 0;
+            for (let i = 1; i <= 10; i++) {
+                sum = sum + parseInt(unmasked.substring(i - 1, i)) * (12 - i);
+            }
+            rest = (sum * 10) % 11;
+
+            if ((rest == 10) || (rest == 11))  
+                rest = 0;
+
+            if (rest != parseInt(unmasked.substring(10, 11) ) ) {
+                lResult.error = 'O CPF é inválido';
+                lResult.success = false;
+                return lResult;
+            } 
+
+        }
+        
+        return lResult;
+    };
+
     const handleSignClick = async () => {
         if(nameField != '' && ageField != '' && emailField != '' && passwordField != '' && cpfField != '' && avatar != '') {
-            let json = await Api.signUp(nameField, ageField, telField, cpfField,  emailField, passwordField, avatar);
-            if(json.token) {
-                let signIn = await Api.signIn(emailField, passwordField); 
-                if(signIn.token)  {
-                    await AsyncStorage.setItem('token', signIn.token);
-                    await AsyncStorage.setItem('user', signIn.data.USR_ID.toString());
-                    userDispatch({
-                        type: 'setAvatar',
-                        payload: {
-                            avatar: signIn.data.AVATAR_PATH
-                        }
-                    });
+            let result = fieldValidate();
+            if(result.success) {
+                let json = await Api.signUp(nameField, ageField, telField, cpfField,  emailField, passwordField, avatar);
+                if(json.token) {
+                    let signIn = await Api.signIn(emailField, passwordField); 
+                    if(signIn.token)  {
+                        await AsyncStorage.setItem('token', signIn.token);
+                        await AsyncStorage.setItem('user', signIn.data.USR_ID.toString());
+                        userDispatch({
+                            type: 'setAvatar',
+                            payload: {
+                                avatar: signIn.data.AVATAR_PATH
+                            }
+                        });
 
-                    navigation.reset({
-                        routes: [{name: 'Home'}]
-                    });
+                        navigation.reset({
+                            routes: [{name: 'Home'}]
+                        });
 
+                    }
+                } else {
+                    alert("Erro: " + json.mensagem);
                 }
             } else {
-                alert("Erro: " + json.mensagem);
+                Alert.alert(
+                    'Aviso',
+                    result.error,
+                    [
+                        { text: "OK" }
+                    ]
+                );
             }
         } else {
             setMessageEmpty('flex');
