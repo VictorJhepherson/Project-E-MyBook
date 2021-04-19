@@ -105,7 +105,17 @@ export default function SignUp() {
             var sum;
             var rest;
             sum = 0;
-            if (unmasked == "00000000000") {
+            if (unmasked == "00000000000" ||
+                unmasked == "11111111111" ||
+                unmasked == "22222222222" ||
+                unmasked == "33333333333" ||
+                unmasked == "44444444444" ||
+                unmasked == "55555555555" ||
+                unmasked == "66666666666" ||
+                unmasked == "77777777777" ||
+                unmasked == "88888888888" ||
+                unmasked == "99999999999" ) 
+            {
                 lResult.error = 'O CPF é inválido!',
                 lResult.success = false;
                 return lResult;
