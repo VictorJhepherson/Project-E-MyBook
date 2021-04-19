@@ -21,6 +21,8 @@ export default function LocateBook() {
     const [loading, setLoading] = useState(false);
     const [addFavorite, setAddFavorite] = useState('none');
     const [removeFavorite, setRemoveFavorite] = useState('none');
+    const [disabledBack, setDisabledBack] = useState(false);
+    const [disabledLocate, setDisabledLocate] = useState(false);
 
     const [bookInfo, setBookInfo] = useState({
         BOOK_ID: route.params.BOOK_ID,
@@ -35,6 +37,8 @@ export default function LocateBook() {
         setLoading(false);
         setAddFavorite('none');
         setRemoveFavorite('none');
+        setDisabledBack(false);
+        setDisabledLocate(false);
     };
 
     const setFavorite = async () => {
@@ -45,6 +49,8 @@ export default function LocateBook() {
                 setVerify(false);
                 setAddFavorite('flex');
                 setRemoveFavorite('none');
+                setDisabledBack(true);
+                setDisabledLocate(true);
             }
         } else {
             let json = await Api.removeFavorite(bookInfo.BOOK_ID);
@@ -52,9 +58,11 @@ export default function LocateBook() {
                 setVerify(true);
                 setRemoveFavorite('flex');
                 setAddFavorite('none');
+                setDisabledBack(true);
+                setDisabledLocate(true);
             }
         }
-        wait(2000).then(setMessage);
+        wait(3000).then(setMessage);
     };
 
     useEffect(() => {
@@ -79,7 +87,7 @@ export default function LocateBook() {
             style={styles.photoArea} 
             source={{ uri: 'https://super.abril.com.br/wp-content/uploads/2018/04/bibliotecas.png?quality=70&strip=info&resize=680,453' }}
             >
-               <TouchableOpacity style={styles.toBack} onPress={()=>{ navigation.navigate('Home') }}>
+               <TouchableOpacity style={styles.toBack} onPress={()=>{ navigation.navigate('Home') }} disabled={disabledBack}>
                     <Back width="36" height="36" fill="#FFFFFF"/>
                 </TouchableOpacity>
             </ImageBackground>
@@ -109,11 +117,11 @@ export default function LocateBook() {
                 </View>
                 <View style={styles.locateBook}>
                     {verify ?
-                        <TouchableOpacity style={styles.favoriteButton} onPress={setFavorite}>
+                        <TouchableOpacity style={styles.favoriteButton} onPress={setFavorite} disabled={disabledLocate}>
                             <FavoriteClean width="36" height="36" fill="#000000"/>
                         </TouchableOpacity>
                         :
-                        <TouchableOpacity style={styles.favoriteButton} onPress={setFavorite}>
+                        <TouchableOpacity style={styles.favoriteButton} onPress={setFavorite} disabled={disabledLocate}>
                             <Favorite width="36" height="36" fill="#000000"/>
                         </TouchableOpacity>
                     }
