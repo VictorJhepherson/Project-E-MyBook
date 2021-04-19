@@ -3,10 +3,12 @@ import { Modal, TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import Api from '../Api';
 
 import ExpandIcon from '../assets/expand.svg';
+import Check from '../assets/checklist-checked-box.svg';
 
 export default ({show, setShow, value})  =>  {
     const [seven, setSeven] = useState(false);
     const [fourteen, setFourteen] = useState(false);
+    const [verify, setVerify] = useState('');
     const [message, setMessage] = useState([]);
 
     const LocateBook = async () => {
@@ -34,18 +36,20 @@ export default ({show, setShow, value})  =>  {
                         <ExpandIcon width="40" height="40" fill="#000000"/>
                     </TouchableOpacity>
                     <View style={styles.checkArea}>
+                        {verify == 1 && <Check width="20" height="20" fill="#000000" />}
                         <TouchableOpacity 
                         style={styles.buttonDays} 
                         disabled={seven} 
-                        onPress={()=>{ setFourteen(false); setSeven(true); }}>
+                        onPress={()=>{ setFourteen(false); setSeven(true); setVerify(1); }}>
                             <Text style={styles.textDays}>7 Dias</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         style={styles.buttonDays} 
                         disabled={fourteen} 
-                        onPress={()=>{ setSeven(false); setFourteen(true); }}>
+                        onPress={()=>{ setSeven(false); setFourteen(true); setVerify(2); }}>
                             <Text style={styles.textDays}>14 Dias</Text>
                         </TouchableOpacity>
+                        {verify == 2 && <Check width="20" height="20" fill="#000000" />}
                     </View>
                     <View style={styles.locateArea}>
                         <TouchableOpacity style={styles.locateButton} onPress={LocateBook}>
