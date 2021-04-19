@@ -19,6 +19,10 @@ import AvatarWoman from '../assets/avatar-women.svg';
 import AvatarWoman2 from '../assets/avatar-women2.svg';
 import Check from '../assets/checklist-checked-box.svg';
 
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
 export default function SignUp() {
     const { dispatch: userDispatch } = useContext(UserContext);
     const navigation = useNavigation();
@@ -31,6 +35,11 @@ export default function SignUp() {
     const [ageField, setAgeField] = useState('');
     const [avatar, setAvatar] = useState('');
     const [messageEmpty, setMessageEmpty] = useState('none');
+    const [validateEmpty, setValidateEmpty] = useState('none');
+    const [lResult, setlResult] = useState({
+        error: '',
+        success: true
+    });
 
     const [offset] = useState(new Animated.ValueXY({ x: 0, y: 150 }));
 
@@ -55,29 +64,24 @@ export default function SignUp() {
     }
 
     const fieldValidate = () => {
-        let lResult = {
-            error: '',
-            success: true
-        }
-
         if(!emailValidate()) {
-            lResult.error = 'O EMAIL é inválido';
+            lResult.error = 'O EMAIL é inválido!',
             lResult.success = false;
             return lResult;
         } else if(passwordField.length < 6 || passwordField.length > 10) {
-            lResult.error = 'A senha deve ter de 6 a 10 caracteres';
+            lResult.error = 'A senha deve ter de 6 a 10 caracteres!',
             lResult.success = false;
             return lResult;
         } else if(ageField.length < 10) {
-            lResult.error = 'A DATA DE NASCIMENTO foi preenchida incorretamente. Ex: 99/99/9999';
+            lResult.error = 'A DATA foi preenchida incorretamente!',
             lResult.success = false;
             return lResult;
         } else if(telField.length < 14) {
-            lResult.error = 'O TELEFONE foi preenchido incorretamente. Ex: (19)99999-9999';
+            lResult.error = 'O TELEFONE foi preenchido incorretamente!',
             lResult.success = false;
             return lResult;
         } else if(cpfField.length < 14) {
-            lResult.error = 'O CPF foi preenchido incorretamente. Ex: 999.999.999-99';
+            lResult.error = 'O CPF foi preenchido incorretamente!',
             lResult.success = false;
             return lResult;
         } else if(cpfField.length == 14) {
@@ -90,7 +94,7 @@ export default function SignUp() {
             var rest;
             sum = 0;
             if (unmasked == "00000000000") {
-                lResult.error = 'O CPF é inválido';
+                lResult.error = 'O CPF é inválido!',
                 lResult.success = false;
                 return lResult;
             }
@@ -104,7 +108,7 @@ export default function SignUp() {
                 rest = 0;
 
             if (rest != parseInt(unmasked.substring(9, 10)) ) {
-                lResult.error = 'O CPF é inválido';
+                lResult.error = 'O CPF é inválido!',
                 lResult.success = false;
                 return lResult;
             }
@@ -119,7 +123,7 @@ export default function SignUp() {
                 rest = 0;
 
             if (rest != parseInt(unmasked.substring(10, 11) ) ) {
-                lResult.error = 'O CPF é inválido';
+                lResult.error = 'O CPF é inválido!',
                 lResult.success = false;
                 return lResult;
             } 
@@ -127,6 +131,11 @@ export default function SignUp() {
         }
         
         return lResult;
+    };
+    
+    const setMessage = () => {
+        setValidateEmpty('none'); 
+        setMessageEmpty('none');
     };
 
     const handleSignClick = async () => {
@@ -155,16 +164,12 @@ export default function SignUp() {
                     alert("Erro: " + json.mensagem);
                 }
             } else {
-                Alert.alert(
-                    'Aviso',
-                    result.error,
-                    [
-                        { text: "OK" }
-                    ]
-                );
+                setValidateEmpty('flex'); 
+                wait(3000).then(setMessage);
             }
         } else {
             setMessageEmpty('flex');
+            wait(3000).then(setMessage);
         }
     };
 
@@ -272,6 +277,9 @@ export default function SignUp() {
                         <Text style={{display: messageEmpty, color: '#FF0000', }}>
                         Preencha todos os campos!
                         </Text>
+                        <Text style={{display: validateEmpty, color: '#FF0000', }}>
+                        {lResult.error}
+                        </Text>
                     </View>
                     <TouchableOpacity onPress={handleSignClick} style={styles.loginButton}>
                         <Text style={styles.loginText}>Cadastre-se</Text>
@@ -347,6 +355,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     messageValid: {
+        width: 350,
+        height: 30,
         justifyContent: 'center',
         alignItems: 'center'
     },
