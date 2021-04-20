@@ -11,8 +11,10 @@ const wait = (timeout) => {
 export default ({show, setShow, value})  =>  {
     const [passwordField, setPasswordField] = useState('');
     const [passwordField2, setPasswordField2] = useState('');
+    const [message, setMessage] = useState('');
     const [messageEmpty, setMessageEmpty] = useState('none');
     const [messageEmpty2, setMessageEmpty2] = useState('none');
+    const [messageEmpty3, setMessageEmpty3] = useState('none');
 
     const AlterPassword = async () => {
         if(passwordField != passwordField2) {
@@ -25,8 +27,11 @@ export default ({show, setShow, value})  =>  {
             let json = await Api.alterPassword(value, passwordField);
             if(!json.error)
                 setShow(false);
-            else
-                alert(json.mensagem);
+            else {
+                setMessage(json.mensagem);
+                setMessageEmpty3('flex');
+                wait(3000).then(() => { setMessageEmpty3('none') });
+            }
         }
     };
 
@@ -73,6 +78,9 @@ export default ({show, setShow, value})  =>  {
                         </Text>
                         <Text style={{ display: messageEmpty2, color: '#FF0000', fontSize: 15 }}>
                             A senha deve ter entre 6 e 10 caracteres!
+                        </Text>
+                        <Text style={{ display: messageEmpty3, color: '#FF0000', fontSize: 15 }}>
+                            {message}
                         </Text>
                     </View>
                     <View style={styles.confirmArea}>
