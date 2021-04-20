@@ -190,5 +190,19 @@ export default {
         });
         const json = await req.json();
         return json;
+    },
+    alterPassword: async (USR_ID, USR_PASSWORD) => {
+        const token = await AsyncStorage.getItem('token');
+        const req = await fetch(`${BASE_API}/auth/update/`, {
+            method: 'PATCH',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": 'Baerer ' + token
+            },
+            body: JSON.stringify({USR_ID, USR_PASSWORD})
+        });
+        const json = await req.json();
+        return json;
     }
 };

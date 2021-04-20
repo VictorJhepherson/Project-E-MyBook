@@ -6,6 +6,7 @@ import Api from '../../Api';
 import { UserContext } from '../../contexts/UserContext';
 import Account from '../../assets/account.svg';
 import LogOut from '../../assets/logout.svg';
+import PasswordModal from '../../components/PasswordModal';
 
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -15,12 +16,14 @@ export default function forInfo() {
     const { state: user } = useContext(UserContext);
     const navigation = useNavigation();
 
+    const [idUser, setIdUser] = useState(0);
     const [name, setName] = useState('');
     const [cpf, setCPF] = useState('');
     const [phone, setPhone] = useState('');
     const [birthday, setBirthday] = useState('');
     const [email, setEmail] = useState('');
     const [refreshing, setRefreshing] = useState(false);
+    const [passwordModal, setpasswordModal] = useState(false);
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
@@ -53,6 +56,7 @@ export default function forInfo() {
                         setBirthday(item.USR_DATEBIRTHDAY);
                         setEmail(item.USR_LOGINNAME);
                         setName(item.USR_NAME);
+                        setIdUser(item.USR_ID);
                     });
                 }
             }
@@ -98,7 +102,7 @@ export default function forInfo() {
                             <Text style={styles.typeTitle}>Email:</Text>
                             <Text style={styles.title}>{email}</Text>
                         </View>
-                        <TouchableOpacity style={styles.passwordButton}>
+                        <TouchableOpacity style={styles.passwordButton} onPress={()=>{ setpasswordModal(true) }}>
                             <Text style={styles.passwordText}>Alterar senha</Text>
                         </TouchableOpacity>
                     </View>
@@ -112,6 +116,11 @@ export default function forInfo() {
                     </View>
                 </ScrollView>
             </View>
+            <PasswordModal 
+                show={passwordModal}
+                setShow={setpasswordModal}
+                value={idUser}
+            />
         </ScrollView>
     );
 }
