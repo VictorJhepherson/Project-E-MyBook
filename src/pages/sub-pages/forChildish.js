@@ -28,6 +28,7 @@ export default function forChildish() {
                 setMessageEmpty('none');
             }
             else {
+                setList([]);
                 setMessageEmpty('flex');
             }
         }).catch((error) => {
@@ -52,6 +53,7 @@ export default function forChildish() {
                 setMessageEmpty('none');
             }
             else {
+                setList([]);
                 setMessageEmpty('flex');
             }
         } else {
@@ -70,6 +72,7 @@ export default function forChildish() {
                     setMessageEmpty('none');
                 }
                 else {
+                    setList([]);
                     setMessageEmpty('flex');
                 }
             }

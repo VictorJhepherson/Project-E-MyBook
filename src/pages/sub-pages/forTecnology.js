@@ -27,6 +27,7 @@ export default function forTecnology() {
                 setTextEmpty('none');
             }
             else {
+                setList([]);
                 setMessageEmpty('flex');
             }
         }).catch((error) => {
@@ -51,6 +52,7 @@ export default function forTecnology() {
                 setMessageEmpty('none');
             }
             else {
+                setList([]);
                 setMessageEmpty('flex');
             }
         } else {
@@ -68,6 +70,7 @@ export default function forTecnology() {
                     setTextEmpty('none');
                 }
                 else {
+                    setList([]);
                     setMessageEmpty('flex');
                 }
             }

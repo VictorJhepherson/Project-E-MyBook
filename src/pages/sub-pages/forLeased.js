@@ -21,6 +21,7 @@ export default function forInfo() {
                 setMessageEmpty('none');
             }
             else {
+                setListLocate([]);
                 setMessageEmpty('flex');
             }
         }).catch((error) => {

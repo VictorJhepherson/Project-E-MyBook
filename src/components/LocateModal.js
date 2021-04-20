@@ -15,10 +15,10 @@ export default ({show, setShow, value})  =>  {
         let json;
         seven ? json = await Api.locateBook(value, 7) : json = await Api.locateBook(value, 14)
         
-        if(json.mensagem) 
+        if(json.erro) 
             setMessage(<Text tyle={{ color: '#FF0000', fontWeight: 'bold' }}>{json.mensagem}</Text>);
         else if(json.error)
-            setMessage(<Text style={{ color: '#FF0000', fontWeight: 'bold' }}>Não foi possível realizar a locação do livro</Text>);
+            setMessage(<Text style={{ color: '#FF0000', fontWeight: 'bold' }}>Não foi possível realizar a locação do livro. Contate o administrador: contato-mybook@mybook.com.br</Text>);
         else 
             setShow(false);
     };
@@ -31,7 +31,6 @@ export default ({show, setShow, value})  =>  {
         >
             <View style={styles.background}>
                 <View style={styles.modalBody}>
-                    {message}
                     <TouchableOpacity style={{width: 40, height: 40}} onPress={()=>{ setShow(false) }}>
                         <ExpandIcon width="40" height="40" fill="#000000"/>
                     </TouchableOpacity>
@@ -50,6 +49,9 @@ export default ({show, setShow, value})  =>  {
                             <Text style={styles.textDays}>14 Dias</Text>
                         </TouchableOpacity>
                         {verify == 2 && <Check width="20" height="20" fill="#000000" />}
+                    </View>
+                    <View style={styles.messageArea}>
+                        {message}
                     </View>
                     <View style={styles.locateArea}>
                         <TouchableOpacity style={styles.locateButton} onPress={LocateBook}>
@@ -73,13 +75,12 @@ const styles = StyleSheet.create({
         minHeight: 300,
         borderTopRightRadius: 30,
         borderTopLeftRadius: 30,
-        padding: 10,
         justifyContent: 'space-around',
         alignItems: 'center'
     },
     checkArea: {
         width: 350,
-        height: 150,
+        height: 100,
         alignItems: 'center',
         justifyContent: 'space-around',
         flexDirection: 'row'
@@ -99,11 +100,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#000'
     },
+    messageArea: {
+        width: 350,
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     locateArea: {
         width: 350,
         height: 100,
         alignItems: 'center',
-        marginTop: 10
+        justifyContent: 'center'
     },
     locateButton: {
         width: 300,
