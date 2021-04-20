@@ -191,6 +191,17 @@ export default {
         const json = await req.json();
         return json;
     },
+    getFavorites: async () => {
+        const token = await AsyncStorage.getItem('token');
+        const user = await AsyncStorage.getItem('user');
+        const req = await fetch(`${BASE_API}/user/getFavorites/` + user, {
+            headers: {
+                "Authorization": 'Baerer ' + token
+            }
+        });
+        const json = await req.json();
+        return json;
+    },
     alterPassword: async (USR_ID, USR_PASSWORD) => {
         const token = await AsyncStorage.getItem('token');
         const req = await fetch(`${BASE_API}/auth/update/`, {

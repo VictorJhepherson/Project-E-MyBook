@@ -39,6 +39,7 @@ export default function forInfo() {
                     setMessageEmpty('none');
                 }
                 else {
+                    setListLocate([]);
                     setMessageEmpty('flex');
                 }
             }
@@ -68,7 +69,7 @@ export default function forInfo() {
                     <View style={[styles.messageNotFound, {display: messageEmpty}]}>
                         <NotFound width="60" height="60" fill="#FFFFFF" />
                         <Text style={{color: '#000000', fontWeight: 'bold', fontSize: 16, marginTop: 10}}>
-                        Você não possui livros
+                        Você não possui livros!
                         </Text>
                     </View>
                 </ScrollView>
