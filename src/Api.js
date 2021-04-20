@@ -68,6 +68,7 @@ export default {
     },
     getBookByGen: async (GEN_NOME) => {
         const token = await AsyncStorage.getItem('token');
+        const user = await AsyncStorage.getItem('user');
         const req = await fetch(`${BASE_API}/book/byGen`, {
             method: 'POST',
             headers: {
@@ -75,7 +76,7 @@ export default {
                 'Content-Type': 'application/json',
                 "Authorization": 'Baerer ' + token
             },
-            body: JSON.stringify({GEN_NOME})
+            body: JSON.stringify({user, GEN_NOME})
         });
         const json = await req.json();
         return json;
