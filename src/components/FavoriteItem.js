@@ -119,10 +119,10 @@ const styles = StyleSheet.create({
     },
     bookText: {
         backgroundColor: '#000000',
-        alignItems: 'flex-start',
-        justifyContent: 'space-around',
-        minHeight: 40,
-        maxWidth: 150
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 40,
+        width: 150
     },
     title: {
         fontSize: 16,
