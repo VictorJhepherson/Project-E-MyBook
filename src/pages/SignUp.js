@@ -71,7 +71,13 @@ export default function SignUp() {
             return false;
     };
 
+    const clearResult = () => {
+        lResult.error = '';
+        lResult.success = true;
+    }
+
     const fieldValidate = () => {
+        clearResult();
         if(!emailValidate()) {
             lResult.error = 'O EMAIL é inválido!',
             lResult.success = false;

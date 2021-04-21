@@ -34,7 +34,7 @@ export default function forInfo() {
         let isFlag = true;
         Api.getFavorites().then((response) => {
             if(isFlag) {
-                if(response.data != null) {
+                if(response.data[0] != null) {
                     setListFavorite(response.data);
                     setMessageEmpty('none');
                 }
