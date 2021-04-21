@@ -4,9 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Api from '../../Api';
 import { UserContext } from '../../contexts/UserContext';
+import PasswordModal from '../../components/PasswordModal';
 import Account from '../../assets/account.svg';
 import LogOut from '../../assets/logout.svg';
-import PasswordModal from '../../components/PasswordModal';
+import Admin from '../../assets/configuracao.svg';
 
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -22,6 +23,7 @@ export default function forInfo() {
     const [phone, setPhone] = useState('');
     const [birthday, setBirthday] = useState('');
     const [email, setEmail] = useState('');
+    const [userType, setUserType] = useState(0);
     const [refreshing, setRefreshing] = useState(false);
     const [passwordModal, setpasswordModal] = useState(false);
 
@@ -57,6 +59,7 @@ export default function forInfo() {
                         setEmail(item.USR_LOGINNAME);
                         setName(item.USR_NAME);
                         setIdUser(item.USR_ID);
+                        setUserType(item.USRTYPE_ID);
                     });
                 }
             }
@@ -85,6 +88,11 @@ export default function forInfo() {
                                 : <Account width="60" height="60" fill="#000000"/>
                             }
                             <Text style={styles.userName}>{name}</Text>
+                            {userType == 1 &&
+                                <TouchableOpacity style={styles.adminButton} onPress={()=> navigation.navigate('Admin') }>
+                                    <Admin width="30" height="30" />
+                                </TouchableOpacity>
+                            }
                         </View>
                         <View style={styles.infoBody}>
                             <Text style={styles.typeTitle}>CPF:</Text>
@@ -156,6 +164,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 18,
         marginLeft: 5
+    },
+    adminButton: {
+        width: 200,
+        marginLeft: 20,
+        alignItems: 'flex-end',
+        justifyContent: 'center'
     },
     infoBody: {
         width: 350,
