@@ -21,10 +21,6 @@ export default function Home({state}) {
     const { state: user } = useContext(UserContext);
     const navigation = useNavigation();
 
-    const handleRegisterNeweBookClick = async () => {
-        alert( "TODO: register new book");
-    }
-
     return (
         <View style={styles.background}>
             <View style={styles.header}>
@@ -37,11 +33,6 @@ export default function Home({state}) {
                     }
                 </TouchableOpacity>
             </View>
-            { 1 &&
-            <TouchableOpacity style={styles.newBook} onPress={handleRegisterNeweBookClick} >
-                    <Text style={styles.newBookText}>Cadastrar novo livro</Text>
-            </TouchableOpacity>
-            }
             <Tab.Navigator tabBar={props=><HomeTabBar {...props} />}>
                 <Tab.Screen name="forYou" component={forYou}/>
                 <Tab.Screen name="forRomance" component={forRomance}/>

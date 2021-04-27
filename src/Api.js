@@ -216,5 +216,20 @@ export default {
         });
         const json = await req.json();
         return json;
-    }
+    },
+    addBook: async (BOOK_NAME, BOOK_DESC, BOOK_GEN, BOOK_AUTHOR, BOOK_PATH) => {
+        const token = await AsyncStorage.getItem('token');
+        const user = await AsyncStorage.getItem('user');
+        const req = await fetch(`${BASE_API}/user/addFavorite`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": 'Baerer ' + token
+            },
+            body: JSON.stringify({user, BOOK_ID})
+        });
+        const json = await req.json();
+        return json;
+    },
 };
