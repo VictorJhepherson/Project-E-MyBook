@@ -218,16 +218,13 @@ export default {
         return json;
     },
     addBook: async (BOOK_NAME, BOOK_DESC, BOOK_GEN, BOOK_AUTHOR, BOOK_PATH) => {
-        const token = await AsyncStorage.getItem('token');
-        const user = await AsyncStorage.getItem('user');
-        const req = await fetch(`${BASE_API}/user/addFavorite`, {
+        const req = await fetch(`${BASE_API}/book/`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json',
-                "Authorization": 'Baerer ' + token
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({user, BOOK_ID})
+            body: JSON.stringify({BOOK_NAME, BOOK_DESC, BOOK_GEN, BOOK_AUTHOR, BOOK_PATH})
         });
         const json = await req.json();
         return json;

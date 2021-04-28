@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Alert, Animated} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Alert, Animated, KeyboardAvoidingView} from 'react-native';
+import Api from '../../Api';
 
 export default function moreBook() {
     
@@ -9,26 +10,27 @@ export default function moreBook() {
     const [authorFiled, setAuthorField] = useState('');
     const [linkFiled, setLinkField] = useState('');
     const [messageEmpty, setMessageEmpty] = useState('none');
-    const [validateEmpty, setValidateEmpty] = useState('none');
+    const [sucessMessage, setSucessMessage] = useState('none');
     const [lResult, setlResult] = useState({
-        error: '',
+        msg: '',
         success: true
     });
 
     const [offset] = useState(new Animated.ValueXY({ x: 0, y: 150 }));
 
     const clearMessage = () => {
-        setValidateEmpty('none'); 
+        setSucessMessage('none'); 
         setMessageEmpty('none');
     };
 
-    const handleSignClick = async () => {
+    const handleAddBookClick = async () => {
         if( nameField != '' && genField != '' && authorFiled != '')
         {
             let json = await Api.addBook(nameField, descField, genField, authorFiled, linkFiled);
-            if(json.token)
+            if(json)
             {
-
+                lResult.msg  = json.mensagem;
+                setSucessMessage('flex');
             }
             else
             {
@@ -108,11 +110,11 @@ export default function moreBook() {
                         <Text style={{display: messageEmpty, color: '#FF0000', }}>
                         Preencha todos os campos!
                         </Text>
-                        <Text style={{display: validateEmpty, color: '#FF0000', }}>
-                        {lResult.error}
+                        <Text style={{display: sucessMessage, color: '#17F1A1', }}>
+                        {lResult.msg}
                         </Text>
                     </View>
-                     <TouchableOpacity onPress={handleSignClick} style={styles.registerButton}>
+                     <TouchableOpacity onPress={handleAddBookClick} style={styles.registerButton}>
                         <Text style={styles.registerText}>Cadastrar</Text>
                     </TouchableOpacity>
             </Animated.View>
@@ -122,6 +124,13 @@ export default function moreBook() {
 };
 
 const styles = StyleSheet.create({
+        fixKeyboard: {
+        bottom: 0,
+        left: 0,
+        flexDirection: 'row',
+        paddingTop: 80,
+        alignContent: 'center'
+    },
     background: {
         flex: 1,
         justifyContent: 'center',
