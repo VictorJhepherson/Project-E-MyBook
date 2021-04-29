@@ -217,6 +217,20 @@ export default {
         const json = await req.json();
         return json;
     },
+    alterData: async (USR_ID, USR_NAME, USR_LOGINNAME, USR_PHONENUMBER, USR_DATEBIRTHDAY, USRDOC_CPFNUMBER) => {
+        const token = await AsyncStorage.getItem('token');
+        const req = await fetch(`${BASE_API}/auth/updateData/`, {
+            method: 'PATCH',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": 'Baerer ' + token
+            },
+            body: JSON.stringify({USR_ID, USR_NAME, USR_LOGINNAME, USR_PHONENUMBER, USR_DATEBIRTHDAY, USRDOC_CPFNUMBER})
+        });
+        const json = await req.json();
+        return json;
+    },
     addBook: async (BOOK_NAME, BOOK_DESC, BOOK_GEN, BOOK_AUTHOR, BOOK_PATH) => {
         const req = await fetch(`${BASE_API}/book/`, {
             method: 'POST',
@@ -229,4 +243,45 @@ export default {
         const json = await req.json();
         return json;
     },
+    getBookLocates: async () => {
+        const token = await AsyncStorage.getItem('token');
+        const req = await fetch(`${BASE_API}/book/locates/`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": 'Baerer ' + token
+            }
+        });
+        const json = await req.json();
+        return json;
+    },
+    getBookLocatesByUserName: async (USR_NAME) => {
+        const token = await AsyncStorage.getItem('token');
+        const req = await fetch(`${BASE_API}/book/locatesByUserName/`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": 'Baerer ' + token
+            },
+            body: JSON.stringify({USR_NAME})
+        });
+        const json = await req.json();
+        return json;
+    },
+    getBookLocatesByBookName: async (BOOK_NAME) => {
+        const token = await AsyncStorage.getItem('token');
+        const req = await fetch(`${BASE_API}/book/locatesByBookName/`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": 'Baerer ' + token
+            },
+            body: JSON.stringify({BOOK_NAME})
+        });
+        const json = await req.json();
+        return json;
+    }
 };

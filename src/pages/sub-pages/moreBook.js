@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Alert, Animated, KeyboardAvoidingView} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Image, Animated, KeyboardAvoidingView} from 'react-native';
 import Api from '../../Api';
 
 export default function moreBook() {
@@ -24,21 +24,15 @@ export default function moreBook() {
     };
 
     const handleAddBookClick = async () => {
-        if( nameField != '' && genField != '' && authorFiled != '')
-        {
+        if( nameField != '' && genField != '' && authorFiled != '') {
             let json = await Api.addBook(nameField, descField, genField, authorFiled, linkFiled);
-            if(json)
-            {
+            if(json) {
                 lResult.msg  = json.mensagem;
                 setSucessMessage('flex');
-            }
-            else
-            {
+            } else {
                 alert("Erro: " + json.mensagem);
             }
-        }
-        else
-        {
+        } else {
             setMessageEmpty('flex');
         }
     };
@@ -55,11 +49,14 @@ export default function moreBook() {
     return(
         <View style={styles.background}>
             <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
+                <View style={styles.headerBody}>
+                    <Text style={styles.subTitle}>Insira as informações para cadastrar o livro</Text>
+                </View>
                 <Animated.View style={[ styles.pageBody,  { transform: [ { translateY: offset.y } ] }]}>
                 <View style={styles.inputArea}>
                     <TextInput 
                         style={styles.input} 
-                        placeholder="Nome do livro*"
+                        placeholder="Nome do livro"
                         placeholderTextColor="#000000"
                         value={nameField}
                         onChangeText={t=>setNameField(t)}
@@ -69,7 +66,7 @@ export default function moreBook() {
                 <View style={styles.inputArea}>
                     <TextInput 
                         style={styles.input} 
-                        placeholder="Gênero*"
+                        placeholder="Gênero"
                         placeholderTextColor="#000000"
                         value={genField}
                         onChangeText={t=>setGenField(t)}
@@ -90,7 +87,7 @@ export default function moreBook() {
                 <View style={styles.inputArea}>
                     <TextInput 
                         style={styles.input} 
-                        placeholder="Autor*"
+                        placeholder="Autor"
                         placeholderTextColor="#000000"
                         value={authorFiled}
                         onChangeText={t=>setAuthorField(t)}
@@ -124,7 +121,7 @@ export default function moreBook() {
 };
 
 const styles = StyleSheet.create({
-        fixKeyboard: {
+    fixKeyboard: {
         bottom: 0,
         left: 0,
         flexDirection: 'row',
@@ -136,6 +133,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
+    },
+    headerBody: {
+        height: 100,
+        width: 400,
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        marginBottom: 10
+    },
+    subTitle: {
+        fontSize: 24,
+        color: '#000',
+        fontWeight: 'bold'
     },
     inputArea: {
         width: 350,

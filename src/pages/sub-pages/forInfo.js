@@ -5,9 +5,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Api from '../../Api';
 import { UserContext } from '../../contexts/UserContext';
 import PasswordModal from '../../components/PasswordModal';
+import DataModal from '../../components/DataModal';
 import Account from '../../assets/account.svg';
 import LogOut from '../../assets/logout.svg';
 import Admin from '../../assets/configuracao.svg';
+import Edit from '../../assets/edit.svg';
 
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -26,6 +28,7 @@ export default function forInfo() {
     const [userType, setUserType] = useState(0);
     const [refreshing, setRefreshing] = useState(false);
     const [passwordModal, setpasswordModal] = useState(false);
+    const [dataModal, setDataModal] = useState(false);
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
@@ -88,6 +91,11 @@ export default function forInfo() {
                                 : <Account width="60" height="60" fill="#000000"/>
                             }
                             <Text style={styles.userName}>{name}</Text>
+                            {userType == 2 &&
+                                <TouchableOpacity style={styles.editButton} onPress={()=>{ setDataModal(true) }}>
+                                    <Edit width="25" height="25" fill="#000000"/>
+                                </TouchableOpacity>
+                            }
                             {userType == 1 &&
                                 <TouchableOpacity style={styles.adminButton} onPress={()=> navigation.navigate('Admin') }>
                                     <Admin width="30" height="30" />
@@ -127,6 +135,11 @@ export default function forInfo() {
             <PasswordModal 
                 show={passwordModal}
                 setShow={setpasswordModal}
+                value={idUser}
+            />
+            <DataModal 
+                show={dataModal}
+                setShow={setDataModal}
                 value={idUser}
             />
         </ScrollView>
@@ -185,6 +198,11 @@ const styles = StyleSheet.create({
     title: {
         marginLeft: 10,
         fontSize: 17
+    },
+    editButton: {
+        width: 30,
+        height: 30,
+        marginLeft: 10
     },
     passwordButton: {
         width: 150,
