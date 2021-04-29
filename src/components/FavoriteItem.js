@@ -97,7 +97,8 @@ const styles = StyleSheet.create({
         padding: 15,
         flexDirection: 'row',
         borderWidth: 2,
-        borderColor: '#000000'
+        borderColor: '#000000',
+        alignItems: 'center'
     },
     bookPhoto: {
         width: 77,
@@ -115,13 +116,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around',
         flexDirection: 'row',
-        minHeight: 40
+        minHeight: 70,
     },
     bookText: {
         backgroundColor: '#000000',
         alignItems: 'flex-start',
         justifyContent: 'center',
-        height: 40,
+        height: 70,
         width: 150
     },
     title: {
