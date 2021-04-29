@@ -16,7 +16,7 @@ export default ({data}) => {
 
 const styles = StyleSheet.create({
     bookItem: {
-        backgroundColor: '#000000',
+        backgroundColor: '#F5F5F5',
         marginBottom: 20,
         borderRadius: 20,
         padding: 15,
@@ -37,6 +37,6 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 13,
         fontWeight: 'bold',
-        color: '#FFFFFF'
+        color: '#000000'
     }
 });

@@ -53,57 +53,57 @@ export default function moreBook() {
                     <Text style={styles.subTitle}>Insira as informações para cadastrar o livro</Text>
                 </View>
                 <Animated.View style={[ styles.pageBody,  { transform: [ { translateY: offset.y } ] }]}>
-                <View style={styles.inputArea}>
-                    <TextInput 
-                        style={styles.input} 
-                        placeholder="Nome do livro"
-                        placeholderTextColor="#000000"
-                        value={nameField}
-                        onChangeText={t=>setNameField(t)}
-                        onFocus={t=>clearMessage()}
-                    />
-                </View>
-                <View style={styles.inputArea}>
-                    <TextInput 
-                        style={styles.input} 
-                        placeholder="Gênero"
-                        placeholderTextColor="#000000"
-                        value={genField}
-                        onChangeText={t=>setGenField(t)}
-                        onFocus={t=>clearMessage()}
-                    />
-                </View>
-                 <View style={styles.textArea}>
-                    <TextInput 
-                        multiline={true} 
-                        numberOfLines={5} 
-                        style={styles.input} 
-                        placeholder="Descrição"
-                        placeholderTextColor="#000000"
-                        value={descField}
-                        onChangeText={t=>setDescField(t)}
-                    />
-                </View>
-                <View style={styles.inputArea}>
-                    <TextInput 
-                        style={styles.input} 
-                        placeholder="Autor"
-                        placeholderTextColor="#000000"
-                        value={authorFiled}
-                        onChangeText={t=>setAuthorField(t)}
-                        onFocus={t=>clearMessage()}
-                    />
+                    <View style={styles.inputArea}>
+                        <TextInput 
+                            style={styles.input} 
+                            placeholder="Nome do livro"
+                            placeholderTextColor="#000000"
+                            value={nameField}
+                            onChangeText={t=>setNameField(t)}
+                            onFocus={t=>clearMessage()}
+                        />
                     </View>
                     <View style={styles.inputArea}>
-                    <TextInput 
-                        style={styles.input} 
-                        placeholder="Link PDF"
-                        placeholderTextColor="#000000"
-                        value={linkFiled}
-                        onChangeText={t=>setLinkField(t)}
-                    />
+                        <TextInput 
+                            style={styles.input} 
+                            placeholder="Gênero"
+                            placeholderTextColor="#000000"
+                            value={genField}
+                            onChangeText={t=>setGenField(t)}
+                            onFocus={t=>clearMessage()}
+                        />
                     </View>
-                     <View style={styles.messageValid}>
+                    <View style={styles.inputArea}>
+                        <TextInput 
+                            style={styles.input} 
+                            placeholder="Autor"
+                            placeholderTextColor="#000000"
+                            value={authorFiled}
+                            onChangeText={t=>setAuthorField(t)}
+                            onFocus={t=>clearMessage()}
+                        />
+                    </View>
+                    <View style={styles.inputArea}>
+                        <TextInput 
+                            style={styles.input} 
+                            placeholder="Link PDF"
+                            placeholderTextColor="#000000"
+                            value={linkFiled}
+                            onChangeText={t=>setLinkField(t)}
+                        />
+                    </View>
+                    <View style={styles.textArea}>
+                        <TextInput 
+                            multiline={true} 
+                            numberOfLines={5} 
+                            style={styles.input} 
+                            placeholder="Descrição"
+                            placeholderTextColor="#000000"
+                            value={descField}
+                            onChangeText={t=>setDescField(t)}
+                        />
+                    </View>
+                    <View style={styles.messageValid}>
                         <Text style={{display: messageEmpty, color: '#FF0000', }}>
                         Preencha todos os campos!
                         </Text>
@@ -111,10 +111,10 @@ export default function moreBook() {
                         {lResult.msg}
                         </Text>
                     </View>
-                     <TouchableOpacity onPress={handleAddBookClick} style={styles.registerButton}>
+                    <TouchableOpacity onPress={handleAddBookClick} style={styles.registerButton}>
                         <Text style={styles.registerText}>Cadastrar</Text>
                     </TouchableOpacity>
-            </Animated.View>
+                </Animated.View>
             </ScrollView>
         </View>
     );
@@ -149,12 +149,12 @@ const styles = StyleSheet.create({
     inputArea: {
         width: 350,
         height: 45,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#F5F5F5',
         flexDirection: 'row',
         borderRadius: 10,
         paddingLeft: 15,
         alignItems: 'center',
-        borderWidth: 3,
+        borderWidth: 2,
         borderColor: '#000000'
     },
     input: {
@@ -165,13 +165,13 @@ const styles = StyleSheet.create({
     },
     textArea: {
         width: 350,
-        height: 75,
-        backgroundColor: '#FFFFFF',
+        height: 150,
+        backgroundColor: '#F5F5F5',
         flexDirection: 'row',
         borderRadius: 10,
         paddingLeft: 15,
         alignItems: 'center',
-        borderWidth: 3,
+        borderWidth: 2,
         borderColor: '#000000'
     },
     registerButton: {
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     },
     pageBody: {
         width: 400,
-        height: 400,
+        height: 550,
         alignItems: 'center',
         justifyContent: 'space-around'
     },

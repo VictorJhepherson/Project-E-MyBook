@@ -92,13 +92,13 @@ export default function forYou() {
                     <TextInput 
                         style={styles.input} 
                         placeholder="Pesquise algum livro"
-                        placeholderTextColor="#FFFFFF"
+                        placeholderTextColor="#000000"
                         value={searchFiled}
                         onChangeText={t=>setSearchField(t)}
                         onFocus={t=>clearMsg()}
                     />
                     <TouchableOpacity style={styles.search} onPress={handleSearch}>
-                        <Search width="24" height="24" fill="#FFFFFF" />
+                        <Search width="24" height="24" fill="#000000" />
                     </TouchableOpacity>
                 </View>
                 <ScrollView 
@@ -142,17 +142,20 @@ const styles = StyleSheet.create({
     inputArea: {
         width: 400,
         height: 40,
-        backgroundColor: '#000000',
+        backgroundColor: '#F5F5F5',
         flexDirection: 'row',
         borderRadius: 10,
         paddingLeft: 15,
         alignItems: 'center',
-        marginBottom: 10
+        marginBottom: 10,
+        borderWidth: 2,
+        borderColor: '#000000'
+        
     },
     input: {
         flex: 1,
         fontSize: 16,
-        color: '#FFFFFF',
+        color: '#000000',
         marginLeft: 5
     },
     search: {

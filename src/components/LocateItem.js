@@ -73,7 +73,9 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#000000'
+        backgroundColor: '#F5F5F5',
+        borderWidth: 2,
+        borderColor: '#000000'
     },
     infoArea: {
         width: 300,
@@ -81,12 +83,12 @@ const styles = StyleSheet.create({
         marginTop: 10,
         alignItems: 'flex-start',
         justifyContent: 'center',
-        backgroundColor: '#000000'
+        backgroundColor: '#F5F5F5'
     },
     infoBook: {
         fontSize: 14,
         fontWeight: 'bold',
-        color: '#FFF'
+        color: '#000000'
     },  
     buttonArea: {
         width: 300,
@@ -95,7 +97,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around',
         flexDirection: 'row',
-        backgroundColor: '#000000'
+        backgroundColor: '#F5F5F5'
     },
     button: {
         width: 100,
@@ -107,6 +109,6 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 15,
         fontWeight: 'bold',
-        color: '#000'
+        color: '#000000'
     }
 });

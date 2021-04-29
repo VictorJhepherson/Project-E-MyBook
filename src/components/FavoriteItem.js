@@ -91,7 +91,7 @@ export default ({data}) => {
 
 const styles = StyleSheet.create({
     favoriteItem: {
-        backgroundColor: '#000000',
+        backgroundColor: '#F5F5F5',
         marginBottom: 20,
         borderRadius: 20,
         padding: 15,
@@ -109,17 +109,17 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         marginLeft: 20,
         width: 250,
-        backgroundColor: '#000000'
+        backgroundColor: '#F5F5F5'
     },
     bookInfo: {
-        backgroundColor: '#000000',
+        backgroundColor: '#F5F5F5',
         alignItems: 'center',
         justifyContent: 'space-around',
         flexDirection: 'row',
         minHeight: 70,
     },
     bookText: {
-        backgroundColor: '#000000',
+        backgroundColor: '#F5F5F5',
         alignItems: 'flex-start',
         justifyContent: 'center',
         height: 70,
@@ -128,10 +128,10 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#FFFFFF'
+        color: '#000000'
     },
     bookFavorite: {
-        backgroundColor: '#000000',
+        backgroundColor: '#F5F5F5',
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: 40
