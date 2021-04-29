@@ -354,12 +354,12 @@ const styles = StyleSheet.create({
     inputArea: {
         width: 350,
         height: 45,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#F5F5F5',
         flexDirection: 'row',
         borderRadius: 10,
         paddingLeft: 15,
         alignItems: 'center',
-        borderWidth: 3,
+        borderWidth: 2,
         borderColor: '#000000'
     },
     input: {

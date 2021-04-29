@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     inputArea: {
         width: 350,
         height: 50,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#F5F5F5',
         flexDirection: 'row',
         borderRadius: 10,
         paddingLeft: 15,
