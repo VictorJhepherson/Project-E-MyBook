@@ -1,11 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Image, Animated, KeyboardAvoidingView} from 'react-native';
 import Api from '../../Api';
 
+import RNPickerSelect from "react-native-picker-select";
+
 export default function moreBook() {
     
+    const generos = [{
+        label: "Romantismo",
+        value: 1
+    },
+    {
+        label: "Realismo",
+        value: 2
+    },
+    {
+        label: "Outros",
+        value: 3
+    }];
+    const [selectedGen, setSelectedGen] = useState([]);
+
     const [nameField, setNameField] = useState('');
-    const [genField, setGenField] = useState('');
     const [descField, setDescField] = useState('');
     const [authorFiled, setAuthorField] = useState('');
     const [linkFiled, setLinkField] = useState('');
@@ -24,8 +39,8 @@ export default function moreBook() {
     };
 
     const handleAddBookClick = async () => {
-        if( nameField != '' && genField != '' && authorFiled != '') {
-            let json = await Api.addBook(nameField, descField, genField, authorFiled, linkFiled);
+        if( nameField != '' && selectedGen != 0 && authorFiled != '') {
+            let json = await Api.addBook(nameField, descField, selectedGen, authorFiled, linkFiled);
             if(json) {
                 lResult.msg  = json.mensagem;
                 setSucessMessage('flex');
@@ -63,15 +78,12 @@ export default function moreBook() {
                             onFocus={t=>clearMessage()}
                         />
                     </View>
-                    <View style={styles.inputArea}>
-                        <TextInput 
-                            style={styles.input} 
-                            placeholder="Gênero"
-                            placeholderTextColor="#000000"
-                            value={genField}
-                            onChangeText={t=>setGenField(t)}
-                            onFocus={t=>clearMessage()}
-                        />
+                    <View>
+                    <RNPickerSelect
+                        style={styles.picker}
+                        onValueChange={(value) => setSelectedGen(value)}
+                        items={generos}
+                    />
                     </View>
                     <View style={styles.inputArea}>
                         <TextInput 
@@ -127,6 +139,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingTop: 80,
         alignContent: 'center'
+    },
+    picker: {
+        width: 350,
+        height: 200
     },
     background: {
         flex: 1,
