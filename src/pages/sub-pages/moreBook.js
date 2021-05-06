@@ -6,20 +6,8 @@ import RNPickerSelect from "react-native-picker-select";
 
 export default function moreBook() {
     
-    const generos = [{
-        label: "Romantismo",
-        value: 1
-    },
-    {
-        label: "Realismo",
-        value: 2
-    },
-    {
-        label: "Outros",
-        value: 3
-    }];
     const [selectedGen, setSelectedGen] = useState([]);
-
+    const [listGenre, setListGenre] = useState([]);
     const [nameField, setNameField] = useState('');
     const [descField, setDescField] = useState('');
     const [authorFiled, setAuthorField] = useState('');
@@ -59,6 +47,18 @@ export default function moreBook() {
             bounciness: 20,
             useNativeDriver: true
         }).start();
+
+        let isFlag = true;
+        Api.getGenres().then((response) => {
+            if(isFlag){
+                if(response.data[0] != null) {
+                    setListGenre(response.data);
+                }
+            }
+        }).catch((error) => {
+            alert('Erro inesperado, contate o adminstrador');
+        });
+        return () => { isFlag = false };
     }, []);
 
     return(
@@ -78,12 +78,21 @@ export default function moreBook() {
                             onFocus={t=>clearMessage()}
                         />
                     </View>
-                    <View>
-                    <RNPickerSelect
-                        style={styles.picker}
-                        onValueChange={(value) => setSelectedGen(value)}
-                        items={generos}
-                    />
+                    <View style={styles.PickerArea}>
+                        <RNPickerSelect
+                            placeholder={{
+                                label: 'Selecione um gênero',
+                                value: null,
+                            }}
+                            placeholderTextColor="#000000"
+                            onValueChange={(value) => setSelectedGen(value)}
+                            style={styles.picker}
+                            items={listGenre.map((item, k) => {
+                                return ({ 
+                                    label: item.GEN_NOME, value: item.GEN_ID 
+                                })
+                            })}
+                        />
                     </View>
                     <View style={styles.inputArea}>
                         <TextInput 
@@ -141,8 +150,10 @@ const styles = StyleSheet.create({
         alignContent: 'center'
     },
     picker: {
-        width: 350,
-        height: 200
+        flex: 1,
+        fontSize: 16,
+        color: '#000000',
+        marginLeft: 5
     },
     background: {
         flex: 1,
@@ -161,6 +172,17 @@ const styles = StyleSheet.create({
         fontSize: 24,
         color: '#000',
         fontWeight: 'bold'
+    },
+    PickerArea: {
+        width: 350,
+        height: 45,
+        backgroundColor: '#F5F5F5',
+        paddingLeft: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 2,
+        borderColor: '#000000'
     },
     inputArea: {
         width: 350,

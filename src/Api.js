@@ -283,5 +283,15 @@ export default {
         });
         const json = await req.json();
         return json;
+    },
+    getGenres: async () => {
+        const token = await AsyncStorage.getItem('token');
+        const req = await fetch(`${BASE_API}/book/getGenre/`, {
+            headers: {
+                "Authorization": 'Baerer ' + token
+            }
+        });
+        const json = await req.json();
+        return json;
     }
 };
