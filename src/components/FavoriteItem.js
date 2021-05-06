@@ -67,11 +67,11 @@ export default ({data}) => {
                     <View style={styles.bookFavorite}>
                         {verify ?
                             <TouchableOpacity style={styles.favoriteButton} onPress={setFavorite} disabled={disabledFavorite}>
-                                <FavoriteClean width="36" height="36" fill="#FFFFFF"/>
+                                <FavoriteClean width="36" height="36" fill="#000000"/>
                             </TouchableOpacity>
                             :
                             <TouchableOpacity style={styles.favoriteButton} onPress={setFavorite} disabled={disabledFavorite}>
-                                <Favorite width="36" height="36" fill="#FFFFFF"/>
+                                <Favorite width="36" height="36" fill="#000000"/>
                             </TouchableOpacity>
                         }
                     </View>

@@ -232,11 +232,13 @@ export default {
         return json;
     },
     addBook: async (BOOK_NAME, BOOK_DESC, BOOK_GEN, BOOK_AUTHOR, BOOK_PATH) => {
+        const token = await AsyncStorage.getItem('token');
         const req = await fetch(`${BASE_API}/book/`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": 'Baerer ' + token
             },
             body: JSON.stringify({BOOK_NAME, BOOK_DESC, BOOK_GEN, BOOK_AUTHOR, BOOK_PATH})
         });
