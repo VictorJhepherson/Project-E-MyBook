@@ -4,7 +4,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 export default ({data}) => {
     return (
         <View style={styles.bookItem}>
-            <Image style={styles.bookPhoto} source={{ uri: 'https://super.abril.com.br/wp-content/uploads/2018/04/bibliotecas.png?quality=70&strip=info&resize=680,453' }} />
+            <Image style={styles.bookPhoto} source={{ uri: data.IMG_PATH == null ? 'https://super.abril.com.br/wp-content/uploads/2018/04/bibliotecas.png?quality=70&strip=info&resize=680,453' : data.IMG_PATH }} />
             <View style={styles.bookInfo}>
                 <Text style={styles.title}>Título: {data.BOOK_NAME}</Text>
                 <Text style={styles.title}>Entrega: {data.LOC_DATE_ENTREGA}</Text>
@@ -26,8 +26,7 @@ const styles = StyleSheet.create({
     },
     bookPhoto: {
         width: 77,
-        height: 77,
-        borderRadius: 20
+        height: 77
     },
     bookInfo: {
         justifyContent: 'space-between',

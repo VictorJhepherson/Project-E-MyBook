@@ -12,13 +12,14 @@ export default ({data}) => {
             BOOK_DESC: data.BOOK_DESC,
             BOOK_STATUS: data.BOOK_STATUS,
             BOOK_AUTHOR: data.BOOK_AUTHOR,
-            BOOK_GEN: data.GEN_NOME
+            BOOK_GEN: data.GEN_NOME,
+            IMG_PATH: data.IMG_PATH
         });
     };
 
     return (
         <TouchableOpacity style={styles.bookItem} onPress={handleLocateBook}>
-            <Image style={styles.bookPhoto} source={{ uri: 'https://super.abril.com.br/wp-content/uploads/2018/04/bibliotecas.png?quality=70&strip=info&resize=680,453' }} />
+            <Image style={styles.bookPhoto} source={{ uri: data.IMG_PATH == null ? 'https://super.abril.com.br/wp-content/uploads/2018/04/bibliotecas.png?quality=70&strip=info&resize=680,453' : data.IMG_PATH }} />
             <View style={styles.bookInfo}>
                 <Text style={styles.title}>Título: {data.BOOK_NAME}</Text>
                 <Text style={styles.title}>Status: {data.BOOK_STATUS == 'd' ? 'Disponível' : 'Indisponível'}</Text>
@@ -40,8 +41,7 @@ const styles = StyleSheet.create({
     },
     bookPhoto: {
         width: 77,
-        height: 77,
-        borderRadius: 20
+        height: 77
     },
     bookInfo: {
         justifyContent: 'space-between',

@@ -30,7 +30,8 @@ export default function LocateBook() {
         BOOK_DESC: route.params.BOOK_DESC,
         BOOK_STATUS: route.params.BOOK_STATUS,
         BOOK_AUTHOR: route.params.BOOK_AUTHOR,
-        BOOK_GEN: route.params.BOOK_GEN
+        BOOK_GEN: route.params.BOOK_GEN,
+        IMG_PATH: route.params.IMG_PATH
     });
 
     const setMessage = () => {
