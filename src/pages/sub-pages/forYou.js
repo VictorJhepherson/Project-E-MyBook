@@ -64,6 +64,7 @@ export default function forYou() {
 
     useEffect(() => {
         let isFlag = true;
+        setList([]);
         Api.getBooks().then((response) => {
             if(isFlag){
                 if(response.data[0] != null) {

@@ -5,7 +5,7 @@ import Api from '../Api';
 import ExpandIcon from '../assets/expand.svg';
 import Check from '../assets/checklist-checked-box.svg';
 
-export default ({show, setShow, value})  =>  {
+export default ({show, setShow, value, but})  =>  {
     const [seven, setSeven] = useState(false);
     const [fourteen, setFourteen] = useState(false);
     const [verify, setVerify] = useState('');
@@ -19,8 +19,10 @@ export default ({show, setShow, value})  =>  {
             setMessage(<Text tyle={{ color: '#FF0000', fontWeight: 'bold' }}>{json.mensagem}</Text>);
         else if(json.error)
             setMessage(<Text style={{ color: '#FF0000', fontWeight: 'bold' }}>Não foi possível realizar a locação do livro. Contate o administrador: contato-mybook@mybook.com.br</Text>);
-        else 
+        else {
             setShow(false);
+            but(false);
+        }
     };
 
     return (

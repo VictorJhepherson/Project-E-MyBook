@@ -16,11 +16,11 @@ const wait = (timeout) => {
 
 export default ({show, setShow, value})  =>  {
 
-    const [nameField, setNameField] = useState(null);
-    const [emailField, setEmailField] = useState(null);
-    const [telField, setTelField] = useState(null);
-    const [cpfField, setCPFField] = useState(null);
-    const [ageField, setAgeField] = useState(null);
+    const [nameField, setNameField] = useState('');
+    const [emailField, setEmailField] = useState('');
+    const [telField, setTelField] = useState('');
+    const [cpfField, setCPFField] = useState('');
+    const [ageField, setAgeField] = useState('');
     const [messageEmpty, setMessageEmpty] = useState('none');
     const [resultEmpty, setResultEmpty] = useState('none');
     const [lResult, setlResult] = useState({
@@ -65,10 +65,6 @@ export default ({show, setShow, value})  =>  {
             return lResult;
         } else if(!dateValidate() && ageField.length != 0) {
             lResult.error = 'A DATA não é válida!',
-            lResult.success = false;
-            return lResult;
-        } else if(cpfField.length < 14) {
-            lResult.error = 'O CPF foi preenchido incorretamente!',
             lResult.success = false;
             return lResult;
         } else if(cpfField.length < 14 && cpfField.length != 0) {
@@ -128,7 +124,6 @@ export default ({show, setShow, value})  =>  {
                 lResult.success = false;
                 return lResult;
             } 
-
         }
 
         return lResult;
@@ -143,7 +138,7 @@ export default ({show, setShow, value})  =>  {
     };
 
     const AlterData = async () => {
-        if(emailField == null && nameField == null && telField == null && ageField == null && cpfField == null) {
+        if(emailField == '' && nameField == '' && telField == '' && ageField == '' && cpfField == '') {
             setMessageEmpty('flex');
             wait(2000).then(() => { setMessageEmpty('none') });
         } else {

@@ -18,6 +18,7 @@ export default function LocateBook() {
 
     const [locateModal, setLocateModal] = useState(false);
     const [verify, setVerify] = useState(true);
+    const [indie, setIndie] = useState(true);
     const [loading, setLoading] = useState(false);
     const [addFavorite, setAddFavorite] = useState('none');
     const [removeFavorite, setRemoveFavorite] = useState('none');
@@ -126,7 +127,7 @@ export default function LocateBook() {
                             <Favorite width="36" height="36" fill="#000000"/>
                         </TouchableOpacity>
                     }
-                    {bookInfo.BOOK_STATUS == 'd' ?
+                    {indie ?
                         <TouchableOpacity style={styles.locateButton} onPress={() => { setLocateModal(true) }}>
                             <Text style={styles.textLocate}>Locar</Text>
                         </TouchableOpacity>
@@ -141,6 +142,7 @@ export default function LocateBook() {
                 show={locateModal}
                 setShow={setLocateModal}
                 value={bookInfo.BOOK_ID}
+                but={setIndie}
             />
         </View>
     );

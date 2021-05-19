@@ -218,6 +218,17 @@ export default {
         return json;
     },
     alterData: async (USR_ID, USR_NAME, USR_LOGINNAME, USR_PHONENUMBER, USR_DATEBIRTHDAY, USRDOC_CPFNUMBER) => {
+        if(USR_NAME == '')
+            USR_NAME = null;
+        if(USR_LOGINNAME == '')
+            USR_LOGINNAME = null;
+        if(USR_PHONENUMBER == '')
+            USR_PHONENUMBER = null;
+        if(USR_DATEBIRTHDAY == '')
+            USR_DATEBIRTHDAY = null;
+        if(USRDOC_CPFNUMBER == '')
+            USRDOC_CPFNUMBER = null;
+
         const token = await AsyncStorage.getItem('token');
         const req = await fetch(`${BASE_API}/auth/updateData/`, {
             method: 'PATCH',

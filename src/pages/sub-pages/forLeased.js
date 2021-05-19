@@ -32,6 +32,7 @@ export default function forInfo() {
 
     useEffect(() => {
         let isFlag = true;
+        setListLocate([]);
         Api.getLocates().then((response) => {
             if(isFlag) {
                 if(response.data[0] != null) {

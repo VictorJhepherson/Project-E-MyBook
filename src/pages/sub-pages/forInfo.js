@@ -32,6 +32,24 @@ export default function forInfo() {
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
+        Api.getUserId().then((response) => {
+            if(response.lenght < 1) {
+                alert('Usuário não encontrado');
+            }
+            else {
+                response.data.map((item, k) => {
+                    setCPF(item.USRDOC_CPFNUMBER);
+                    setPhone(item.USR_PHONENUMBER);
+                    setBirthday(item.USR_DATEBIRTHDAY);
+                    setEmail(item.USR_LOGINNAME);
+                    setName(item.USR_NAME);
+                    setIdUser(item.USR_ID);
+                    setUserType(item.USRTYPE_ID);
+                });
+            }
+        }).catch((error) => {
+            alert('Erro inesperado, contate o adminstrador');
+        });
         wait(2000).then(() => setRefreshing(false));
     }, []);
 
