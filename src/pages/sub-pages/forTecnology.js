@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, ScrollView, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, RefreshControl } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Api from '../../Api';
 import BookItem from '../../components/BookItem';
 import FabButton from '../../components/FabButton';
@@ -11,6 +12,8 @@ const wait = (timeout) => {
 }
 
 export default function forTecnology() {
+    const navigation = useNavigation();
+
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [searchFiled, setSearchField] = useState('');
@@ -63,6 +66,21 @@ export default function forTecnology() {
 
     useEffect(() => {
         let isFlag = true;
+        setList([]);
+        const unsubscribe = navigation.addListener('focus', () => {
+            Api.getBookByGen('Tecnologia').then((response) => {
+                if(response.data[0] != null) {
+                    setList(response.data);
+                    setTextEmpty('none');
+                }
+                else {
+                    setList([]);
+                    setMessageEmpty('flex');
+                }
+            }).catch((error) => {
+                alert('Erro inesperado, contate o adminstrador');
+            });
+        });
         Api.getBookByGen('Tecnologia').then((response) => {
             if(isFlag) {
                 if(response.data[0] != null) {
@@ -77,8 +95,8 @@ export default function forTecnology() {
         }).catch((error) => {
             alert('Erro inesperado, contate o adminstrador');
         });
-        return () => { isFlag = false };
-    }, []);
+        return () => { isFlag = false, unsubscribe };
+    }, [], [navigation]);
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-around', alignItems: 'center', backgroundColor: '#FFFFFF' }} horizontal={true}>
