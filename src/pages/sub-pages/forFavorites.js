@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { ScrollView, View, Text, TouchableOpacity, Image, StyleSheet, RefreshControl } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Api from '../../Api';
 import FavoriteItem from '../../components/FavoriteItem';
 import NotFound from '../../assets/nao-encontrado.svg';
@@ -9,6 +10,8 @@ const wait = (timeout) => {
 }
 
 export default function forInfo() {
+    const navigation = useNavigation();
+
     const [listFavorite, setListFavorite] = useState([]);
     const [messageEmpty, setMessageEmpty] = useState('none');
     const [refreshing, setRefreshing] = useState(false);
@@ -32,6 +35,23 @@ export default function forInfo() {
 
     useEffect(() => {
         let isFlag = true;
+        setListFavorite([]);
+        const unsubscribe = navigation.addListener('focus', () => {
+            Api.getFavorites().then((response) => {
+                if(isFlag) {
+                    if(response.data[0] != null) {
+                        setListFavorite(response.data);
+                        setMessageEmpty('none');
+                    }
+                    else {
+                        setListFavorite([]);
+                        setMessageEmpty('flex');
+                    }
+                }
+            }).catch((error) => {
+                alert('Erro inesperado, contate o adminstrador');
+            });
+        });
         Api.getFavorites().then((response) => {
             if(isFlag) {
                 if(response.data[0] != null) {
@@ -46,8 +66,8 @@ export default function forInfo() {
         }).catch((error) => {
             alert('Erro inesperado, contate o adminstrador');
         });
-        return () => { isFlag = false };
-    }, []);
+        return () => { isFlag = false, unsubscribe };
+    }, [], [navigation]);
     return(
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-around', alignItems: 'center', backgroundColor: '#FFFFFF' }} horizontal={true}>
             <View style={styles.pageBody}>

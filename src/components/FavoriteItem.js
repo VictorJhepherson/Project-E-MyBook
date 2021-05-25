@@ -1,63 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, View, Text, Image, StyleSheet } from 'react-native';
-import Api from '../Api';
-import FavoriteClean from '../assets/favorito-vazio.svg';
+import { useNavigation } from '@react-navigation/native';
 import Favorite from '../assets/favorito.svg';
 
-const wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-}
-
 export default ({data}) => {
-    const [verify, setVerify] = useState(true);
-    const [addFavorite, setAddFavorite] = useState('none');
-    const [removeFavorite, setRemoveFavorite] = useState('none');
-    const [disabledFavorite, setDisabledFavorite] = useState(false);
+    const navigation = useNavigation();
 
-    const setMessage = () => {
-        setAddFavorite('none');
-        setRemoveFavorite('none');
-        setDisabledFavorite(false);
-    };
-
-    const setFavorite = async () => {
-        if(verify) {
-            let json = await Api.addFavorite(data.BOOK_ID);
-            if(!json.error) {
-                setVerify(false);
-                setAddFavorite('flex');
-                setRemoveFavorite('none');
-                setDisabledFavorite(true);
-            }
-        } else {
-            let json = await Api.removeFavorite(data.BOOK_ID);
-            if(!json.error) {
-                setVerify(true);
-                setRemoveFavorite('flex');
-                setAddFavorite('none');
-                setDisabledFavorite(true);
-            }
-        }
-        wait(3000).then(setMessage);
-    };
-
-    useEffect(() => {
-        let isFlag = true;
-        Api.verifyFavorite(data.BOOK_ID).then((response) => {
-            if(isFlag){
-                if(response.data != 0 ) {
-                    setVerify(false);
-                } else {
-                    setVerify(true);
-                }
-            }
-        }).catch((error) => {
-            alert('Erro inesperado, contate o adminstrador');
+    const handleLocateBook = async () => {
+        navigation.navigate('LocateBookTwo', {
+            BOOK_ID: data.BOOK_ID,
+            BOOK_NAME: data.BOOK_NAME,
+            BOOK_DESC: data.BOOK_DESC,
+            BOOK_STATUS: data.BOOK_STATUS,
+            BOOK_AUTHOR: data.BOOK_AUTHOR,
+            BOOK_GEN: data.GEN_NOME,
+            IMG_PATH: data.IMG_PATH
         });
-        return () => { isFlag = false };
-    }, []);
+    };
+
     return (
-        <View style={styles.favoriteItem}>
+        <TouchableOpacity style={styles.favoriteItem} onPress={handleLocateBook}>
             <Image style={styles.bookPhoto} source={{ uri: data.IMG_PATH == null ? 'https://super.abril.com.br/wp-content/uploads/2018/04/bibliotecas.png?quality=70&strip=info&resize=680,453' : data.IMG_PATH }} />
             <View style={styles.viewArea}>
                 <View style={styles.bookInfo}>
@@ -65,27 +27,13 @@ export default ({data}) => {
                         <Text style={styles.title}>{data.BOOK_NAME}</Text>
                     </View>
                     <View style={styles.bookFavorite}>
-                        {verify ?
-                            <TouchableOpacity style={styles.favoriteButton} onPress={setFavorite} disabled={disabledFavorite}>
-                                <FavoriteClean width="36" height="36" fill="#000000"/>
-                            </TouchableOpacity>
-                            :
-                            <TouchableOpacity style={styles.favoriteButton} onPress={setFavorite} disabled={disabledFavorite}>
-                                <Favorite width="36" height="36" fill="#000000"/>
-                            </TouchableOpacity>
-                        }
+                        <View style={styles.favoriteButton}>
+                            <Favorite width="36" height="36" fill="#000000"/>
+                        </View>
                     </View>
                 </View>
-                <View style={styles.warningFavorite}>
-                    <Text style={{display: addFavorite, color: '#FF0000'}}>
-                    Livro adicionado aos favoritos!
-                    </Text>
-                    <Text style={{display: removeFavorite, color: '#FF0000', }}>
-                    Livro removido dos favoritos!
-                    </Text>
-                </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 
